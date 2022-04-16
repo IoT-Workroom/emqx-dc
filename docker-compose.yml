@@ -1,0 +1,17 @@
+version: '3'
+
+services:
+  emqx:
+    image: emqx/emqx:4.4.2
+    volumes:
+        - ./emqx.conf:/opt/emqx/etc/emqx.conf
+        - ./emqx_management.conf:/opt/emqx/etc/plugins/emqx_management.conf
+        - ./emqx_dashboard.conf:/opt/emqx/etc/plugins/emqx_dashboard.conf
+    ports:
+        - "18083:18083"
+        - "1883:1883"
+    healthcheck:
+      test: ["CMD", "/opt/emqx/bin/emqx_ctl", "status"]
+      interval: 5s
+      timeout: 25s
+      retries: 5
